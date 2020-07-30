@@ -32,3 +32,28 @@ model.login = async (dataLogin) => {
         alert(err.message)
     }
 }
+
+model.chat = async () => {
+    try {
+      const authState = await firebase.auth().onAuthStateChanged((user) => {
+        if (user) {
+          if (user.emailVerified) {
+            model.currentUser = {
+              displayName: user.displayName,
+              email: user.email
+            }
+            view.setActiveScreen('chatScreen')
+          } else {
+            view.setActiveScreen('loginScreen')
+            alert('Please verify your email')
+          }
+        } else {
+          view.setActiveScreen('loginScreen')
+        }
+      });
+  
+    } catch (error) {
+      alert(error.message)
+  
+    }
+  }

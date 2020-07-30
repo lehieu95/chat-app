@@ -46,7 +46,69 @@ view.setActiveScreen = (screenName) => {
         break;
         case 'chatScreen' :
             document.getElementById('app').innerHTML = components.chatScreen
-            document.getElementById('welcome-user').innerText = `welcome ${model.currentUser.displayName}`
+            const sendMessageForm = document.getElementById('send-message-form')
+            sendMessageForm.addEventListener('submit', (e) => {
+                e.preventDefault()
+                const message = {
+                    content: sendMessageForm.message.value,
+                    owner: model.currentUser.email
+                }
+                const botMsg = {
+                    content: sendMessageForm.message.value,
+                    owner: 'bot'
+                }
+                view.addMessage(message)
+                view.addMessage(botMsg)
+                sendMessageForm.message.value = ''
+            })
+
+            document.getElementById("log-out").addEventListener("click", (e) => {
+                e.preventDefault()
+                firebase.auth().signOut().then(() => {
+                    view.setActiveScreen('loginScreen')
+                  }).catch(function (error) {
+                    //An error happened
+                  })
+              })
         break;
     }
+}
+
+
+const logOut = () => {
+    const confirm = confirm('Do you want to log out')
+    if (confirm === true) {
+      view.setActiveScreen('loginScreen')
+  
+    } else {
+      view.setActiveScreen('chatScreen')
+    }
+  }
+
+view.addMessage = (message) => {
+    const messageWrapper = document.createElement('div')
+    messageWrapper.classList.add('message-container')
+    if (message.owner === model.currentUser.email){
+        messageWrapper.classList.add('mine')
+        if (message.content.trim() != "") {
+            messageWrapper.innerHTML = `
+                <div class="content">
+                    ${message.content}
+                </div>
+            `
+        }
+    }else {
+        messageWrapper.classList.add('their')
+        if (message.content.trim() != "") {
+            messageWrapper.innerHTML = `
+                <div class = "owner">
+                    ${message.owner}
+                </div>
+                <div class = "content">
+                    ${message.content}
+                </div>
+            `
+        }
+    }
+    document.querySelector('.list-messages').appendChild(messageWrapper)
 }
