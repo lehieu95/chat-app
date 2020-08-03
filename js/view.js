@@ -49,17 +49,23 @@ view.setActiveScreen = (screenName) => {
             const sendMessageForm = document.getElementById('send-message-form')
             sendMessageForm.addEventListener('submit', (e) => {
                 e.preventDefault()
-                const message = {
-                    content: sendMessageForm.message.value,
-                    owner: model.currentUser.email
+                if (sendMessageForm.message.value.trim() !== '' ){
+                    const message = {
+                        content: sendMessageForm.message.value,
+                        owner: model.currentUser.email
+                    }
+                    const botMsg = {
+                        content: sendMessageForm.message.value,
+                        owner: 'bot'
+                    }
+                    view.addMessage(message)
+                    view.addMessage(botMsg)
+                    sendMessageForm.message.value = ''
+
+                    //send message to firestore
+                    firebase.firestore().collection('users').add(message)
+                    firebase.firestore().collection('users').add(botMsg)
                 }
-                const botMsg = {
-                    content: sendMessageForm.message.value,
-                    owner: 'bot'
-                }
-                view.addMessage(message)
-                view.addMessage(botMsg)
-                sendMessageForm.message.value = ''
             })
 
             document.getElementById("log-out").addEventListener("click", (e) => {
@@ -75,32 +81,19 @@ view.setActiveScreen = (screenName) => {
 }
 
 
-const logOut = () => {
-    const confirm = confirm('Do you want to log out')
-    if (confirm === true) {
-      view.setActiveScreen('loginScreen')
-  
-    } else {
-      view.setActiveScreen('chatScreen')
-    }
-  }
-
 view.addMessage = (message) => {
     const messageWrapper = document.createElement('div')
     messageWrapper.classList.add('message-container')
     if (message.owner === model.currentUser.email){
         messageWrapper.classList.add('mine')
-        if (message.content.trim() != "") {
-            messageWrapper.innerHTML = `
+        messageWrapper.innerHTML = `
                 <div class="content">
                     ${message.content}
                 </div>
             `
-        }
     }else {
         messageWrapper.classList.add('their')
-        if (message.content.trim() != "") {
-            messageWrapper.innerHTML = `
+        messageWrapper.innerHTML = `
                 <div class = "owner">
                     ${message.owner}
                 </div>
@@ -108,7 +101,6 @@ view.addMessage = (message) => {
                     ${message.content}
                 </div>
             `
-        }
     }
     document.querySelector('.list-messages').appendChild(messageWrapper)
 }
