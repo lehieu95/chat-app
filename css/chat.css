@@ -21,12 +21,15 @@
 
 .chat-container .main {
     height: calc(100% - 64px);
+    display: flex;
 }
 
 .chat-container .main .conversation-detail {
     display: flex;
     flex-direction: column;
     height: 100%;
+    /* flex-grow: 1; */
+    width: 85%;
 }
 
 .conversation-detail .list-messages {
@@ -64,6 +67,7 @@
 
 .chat-container .list-messages .message-container {
     margin-bottom: 10px;
+    word-break: break-all;
 }
 
 .chat-container .message-container .content {
@@ -97,4 +101,23 @@
     cursor: pointer;
     background: none;
 
+}
+
+.chat-container .aside-left {
+    width: 15%;
+    height: 100%;
+    border-right: 1px solid #dbdbdb;
+}
+
+.chat-container .create-conversation {
+    height: 64px;
+    line-height: 64px;
+    border-bottom: 1px solid #dbdbdb;
+    text-align: center;
+}
+.chat-container .list-conversation .conversation {
+    padding: 5px 10px;
+}
+.chat-container .list-conversation .conversation.current {
+    background-color: #dbdbdb;
 }

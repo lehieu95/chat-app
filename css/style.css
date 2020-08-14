@@ -27,3 +27,15 @@
 .cursor-pointer {
     cursor: pointer
 }
+.header {
+    text-align: center;
+    height: 64px;
+    background: #037bfe;
+    line-height: 64px;
+    color: #ffffff;
+    font-size: 20px;
+}
+.btn-light {
+    background: none;
+    color: #333;
+}

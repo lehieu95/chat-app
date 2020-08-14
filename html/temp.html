@@ -12,33 +12,19 @@
 
 </head>
 <body>
-    <div class="chat-container">
-        <div class="header">
-            MindX Chat
-        </div>
-        <div class="main">
-            <div class="conversation-detail">
-                <div class="conversation-header">
-                    First conversation
-                </div>
-                <div class="list-messages">
-                    <div class="message-container mine">
-                        <div class="content">hello world</div>
-                    </div>
-                    <div class="message-container their">
-                        <div class="owner">fsdfds@gmai.com</div>
-                        <div class="content">hello world</div>
-                    </div>
-                </div>
-                
-                <form id="send-message-form">
-                    <div class="input-wapper">
-                        <input type="text" name="message" placeholder="Type a message">
-                    </div>
-                    <button type="submit"><i class="fa fa-paper-plane" aria-hidden="true"></i></button>
-                </form>
-            </div>
-        </div>
-    </div>
+    document.getElementById('app').innerHTML = components.registerScreen
+            const registerForm = document.getElementById('register-form')
+            registerForm.addEventListener('submit', (event) => {
+                event.preventDefault();
+                const data = {
+                    firstName: registerForm.firstName.value,
+                    lastName: registerForm.lastName.value,
+                    email: registerForm.email.value,
+                    password: registerForm.password.value,
+                    confirmPassword: registerForm.confirmPassword.value
+                }
+                console.log(data);
+                controller.register(data)
+            })
 </body>
 </html>

@@ -45,3 +45,19 @@ controller.login = (dataLogin) => {
         model.login(dataLogin)
     }
 }
+
+controller.createConversation = (data) => {
+    if(data.title === ''){
+        document.getElementById('conversation-name-error').innerText = 'please input conversation name'
+    }else {
+        document.getElementById('conversation-name-error').innerText = ''
+    }
+    if(data.email === ''){
+        document.getElementById('conversation-email-error').innerText = 'please input conversation email'
+    }else {
+        document.getElementById('conversation-email-error').innerText = ''
+    }
+    if ( data.title !== '' && data.email !== ''){
+        model.createConversation(data)
+    }
+}
